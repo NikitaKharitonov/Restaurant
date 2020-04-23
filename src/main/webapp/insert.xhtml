@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="ru" lang="ru"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+    <title>Добавление</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+    <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/icon.ico']}"/>
+</h:head>
+<h:body>
+    <h:form styleClass="login">
+        <h1>Добавление в заказ ##{flash.keep.get('orderId')}</h1>
+        <h:selectOneMenu value="#{orderDishBean.dishName}" styleClass="select">
+            <f:selectItems value="#{orderDishBean.dishNameList}"/>
+        </h:selectOneMenu>
+        <h:inputText value="#{orderDishBean.quantity}" id="quantity" a:placeholder="Количество" required="true"
+                       requiredMessage="Введите количество" validator="#{orderDishBean.validateQuantity}"/>
+        <h:commandButton value="Добавить" action="#{orderDishBean.addOrderDish(flash.keep.get('orderId'), customerBean)}" styleClass="btn"/>
+        <h:panelGroup layout="block">
+            <h:messages style="color: red"/>
+        </h:panelGroup>
+        <c:if test="#{orderDishBean.message.equals('sqlexception')}">
+            <h:outputLabel value="Сиситемная ошбибка" style="color: red"/>
+        </c:if>
+    </h:form>
+</h:body>
+</html>

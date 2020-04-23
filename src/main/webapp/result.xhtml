@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core" xml:lang="ru" lang="ru"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>#{customerBean.customer.name}</title>
+        <h:outputStylesheet library="css" name="style.css"/>
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/icon.ico']}"/>
+    </h:head>
+    <h:body>
+        <h:panelGroup layout="block" class="container-table">
+            <c:if test="#{customerBean.customer == null}">
+                <f:metadata>
+                    <f:viewAction action="error"/>
+                </f:metadata>
+            </c:if>
+            <h:panelGroup layout="block" class="greeting">
+                <h:outputLabel value="Здравствуйте, #{customerBean.customer.name}!"/>
+            </h:panelGroup>
+            <ui:repeat value="#{customerBean.customer.orderList}" var="order">
+                <h:panelGroup layout="block" styleClass="order">
+                    <table>
+                        <h:dataTable value="#{order.orderDishList}" var="orderDish">
+                            <f:facet name="header" styleClass="th">
+                                Заказ ##{order.orderId}
+                            </f:facet>
+                            <h:column>
+                                <f:facet name="header">Наименование</f:facet>
+                                #{orderDish.dish.name}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Цена, ₽</f:facet>
+                                #{orderDish.dish.price}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Количество</f:facet>
+                                #{orderDish.quantity}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Стоимость, ₽</f:facet>
+                                #{orderDish.cost}
+                            </h:column>
+                            <h:column>
+                                <h:form style="position: center">
+                                    <h:commandButton value="Удалить" action="#{customerBean.deleteOrderDish(orderDish.dish.name, order.orderId)}" styleClass="btn">
+                                    </h:commandButton>
+                                </h:form>
+                            </h:column>
+                        </h:dataTable>
+
+                    </table>
+                    <h:form>
+                        <h:commandButton value="Добавить..." action="#{orderDishBean.insert}" styleClass="btn">
+                            <f:param name="orderId" value="#{order.orderId}"/>
+                        </h:commandButton>
+                    </h:form>
+                </h:panelGroup>
+            </ui:repeat>
+            <h:panelGroup layout="block" styleClass="links">
+                <h:panelGroup styleClass="span">
+                    <h:form>
+                        <h:commandLink value="Скачать XML-файл" action="#{customerBean.downloadXml}" styleClass="a"/>
+                    </h:form>
+                </h:panelGroup>
+                <h:panelGroup styleClass="span">
+                    <h:link value="Выйти" outcome="index" styleClass="a"/>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:panelGroup>
+    </h:body>
+</html>

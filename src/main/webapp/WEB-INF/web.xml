@@ -7,36 +7,26 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+  <welcome-file-list>
+    <welcome-file>index.xhtml</welcome-file>
+  </welcome-file-list>
+
   <display-name>Archetype Created Web Application</display-name>
 
+  <context-param>
+      <param-name>javax.faces.CONFIG_FILES</param-name>
+      <param-value>/WEB-INF/faces-config.xml</param-value>
+  </context-param>
+
   <servlet>
-    <servlet-name>Index</servlet-name>
-    <jsp-file>/jsp/index.jsp</jsp-file>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>Index</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>Result</servlet-name>
-    <jsp-file>/jsp/result.jsp</jsp-file>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>Result</servlet-name>
-    <url-pattern>/result</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>Error</servlet-name>
-    <jsp-file>/jsp/error.jsp</jsp-file>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>Error</servlet-name>
-    <url-pattern>/error</url-pattern>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.xhtml</url-pattern>
   </servlet-mapping>
 
 </web-app>

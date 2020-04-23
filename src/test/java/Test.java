@@ -8,11 +8,7 @@ import java.sql.SQLException;
 
 public class Test {
     public static void main(String[] args) throws SQLException, JAXBException {
-        Customer customer = Database.getCustomerByCustomerId(1);
-        System.out.println(customer);
-        JAXBContext jaxbContext = JAXBContext.newInstance(Customer.class);
-        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        jaxbMarshaller.marshal(customer, System.out);
+        Object a = 2.3;
+        int b = (Integer) a;
     }
 }

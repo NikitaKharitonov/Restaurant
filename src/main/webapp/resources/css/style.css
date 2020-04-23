@@ -54,14 +54,14 @@ body {
     text-align: center;
 }
 
-input, table tr, caption {
+input, table tr, .caption, .select {
     width: 100%;
     margin-bottom: 10px;
     background: rgba(0,0,0,0.3);
     box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
     outline: none;
     padding: 10px;
-    font-size: 13px;
+    font-size: 15px;
     color: #fff;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
     border: 1px solid rgba(0,0,0,0.3);
@@ -69,11 +69,11 @@ input, table tr, caption {
     transition: box-shadow .5s ease;
 }
 
-input:focus, table tr:hover, caption:hover {
+input:focus, table tr:hover, .caption:hover, .select:focus {
     box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgba(255,255,255,0.2);
 }
 
-.t2 {
+.CustomerNotFoundException {
     border: 1px solid rgba(255, 28, 21, 0.85);
 }
 
@@ -89,7 +89,7 @@ a:hover {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    padding: 33px 30px;
+    /*padding: 33px 30px;*/
 }
 
 table, .links {
@@ -98,22 +98,34 @@ table, .links {
     border-radius: 10px;
     overflow: hidden;
     width: 100%;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.order, .links {
+    width: 100%;
+    margin-bottom: 50px;
     margin-left: 100px;
     margin-right: 100px;
-    margin-bottom: 50px;
     position: relative;
+}
+.order .btn {
+    width: auto;
+    position: relative;
+    alignment: center;
+    margin: 0 auto;
 }
 table * {
     position: relative;
 }
 
-table td, table th, table caption {
+table td, table th, table .caption {
     /*font-size: 24px;*/
     padding-left: 12px;
     width: 250px;
     text-align: center;
 }
-table thead tr, table caption {
+table thead tr, table .caption {
     height: 60px;
     line-height: 1.2;
     font-weight: unset;
@@ -137,7 +149,7 @@ tbody tr:hover {
     cursor: pointer;
 }
 
-table caption {
+table .caption {
     /*background-color: #36004a;*/
     padding-top: 12px;
     font-size: 24px;
@@ -153,7 +165,7 @@ table caption {
     margin-bottom: 50px;
 }
 
-span {
+.span {
     width: 50%;
     float: left;
     display: inline-block;
@@ -163,6 +175,10 @@ span {
 .error {
     width: 25%;
     margin-top: 100px;
+}
+
+.links {
+    margin-top: 50px;
 }
 
 

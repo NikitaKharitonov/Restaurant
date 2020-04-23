@@ -23,6 +23,14 @@ public class Database {
     private static final String USER = "postgres";
     private static final String PASSWORD = "root";
 
+    static {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Creates the {@code customer}, {@code zakaz}, {@code order_dish} and {@code dish} relations,
      * reads all data from the {@code customer1.json}, ..., {@code customer5.json} files
@@ -498,4 +506,88 @@ public class Database {
             return customers;
         }
     }
+
+    public static List<String> getDishNameList() throws SQLException {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT name FROM dish"
+            );
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<String> dishNameList = new ArrayList<>();
+
+            while (resultSet.next())
+                dishNameList.add(resultSet.getString("name"));
+
+
+            return dishNameList;
+        }
+    }
+
+    public static Dish getDishByName(String name) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM dish WHERE name = ?"
+            );
+
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<String> dishNameList = new ArrayList<>();
+
+            return resultSet.next() ? new Dish(name, resultSet.getInt("price")) : null;
+        }
+    }
+
+    public static boolean orderDishExists(String dishName, int orderId) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM order_dish WHERE name = ? AND order_id = ?"
+            );
+            preparedStatement.setString(1, dishName);
+            preparedStatement.setInt(2, orderId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        }
+    }
+
+    public static void updateOrderDishQuantity(int orderId, String name, int quantity) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE order_dish SET quantity = ? WHERE order_id = ? AND name = ?;"
+            );
+            preparedStatement.setInt(1, quantity);
+            preparedStatement.setInt(2, orderId);
+            preparedStatement.setString(3, name);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    public static int getOrderDishQuantity(int orderId, String name) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT quantity FROM order_dish WHERE order_id = ? AND name = ?"
+            );
+
+            preparedStatement.setInt(1, orderId);
+            preparedStatement.setString(2, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next() ? resultSet.getInt("quantity") : 0;
+        }
+    }
+
+    public static void deleteOrderDish(String dishName, int orderId) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "DELETE FROM order_dish WHERE name = ? AND order_id = ?"
+            );
+            preparedStatement.setString(1, dishName);
+            preparedStatement.setInt(2, orderId);
+            preparedStatement.executeUpdate();
+        }
+    }
+
 }
