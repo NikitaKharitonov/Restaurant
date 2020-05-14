@@ -3,6 +3,7 @@ package ru.restaurant.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.*;
 import java.io.Reader;
 import java.io.Writer;
@@ -11,8 +12,14 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+@Entity
+@Table(name = "zakaz")
 @XmlRootElement(name = "order")
 @XmlAccessorType(XmlAccessType.FIELD)
+@org.hibernate.annotations.NamedQueries({
+        @org.hibernate.annotations.NamedQuery(name = "GetOrderListByCustomerId", query = "from Order where customer_id = :customerId"),
+        @org.hibernate.annotations.NamedQuery(name = "DeleteOrderByOrderId", query = "delete from Order where order_id = :orderId")
+})
 public class Order {
     private int orderId;
     @XmlElementWrapper(name="orderDishList")
@@ -28,12 +35,27 @@ public class Order {
 
     }
 
+    @Column(name = "order_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getOrderId() {
         return orderId;
     }
 
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
     public List<OrderDish> getOrderDishList() {
         return orderDishList;
+    }
+
+    public void setOrderDishList(List<OrderDish> orderDishList) {
+        this.orderDishList = orderDishList;
     }
 
     public void setOrderDishList(ArrayList<OrderDish> orderDishList) {
@@ -62,7 +84,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "org.example.model.Order{" +
+        return "Order{" +
                 "orderId=" + orderId +
                 ", orderDishes=" + orderDishList +
                 '}';

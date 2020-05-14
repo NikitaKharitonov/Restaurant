@@ -47,7 +47,7 @@
                             </h:column>
                             <h:column>
                                 <h:form style="position: center">
-                                    <h:commandButton value="Удалить" action="#{customerBean.deleteOrderDish(orderDish.dish.name, order.orderId)}" styleClass="btn">
+                                    <h:commandButton value="Удалить блюдо" action="#{customerBean.deleteOrderDish(orderDish.dish.name, order.orderId)}" styleClass="btn">
                                     </h:commandButton>
                                 </h:form>
                             </h:column>
@@ -55,13 +55,25 @@
 
                     </table>
                     <h:form>
-                        <h:commandButton value="Добавить..." action="#{orderDishBean.insert}" styleClass="btn">
-                            <f:param name="orderId" value="#{order.orderId}"/>
-                        </h:commandButton>
+                        <h:panelGroup layout="block">
+                            <h:panelGroup styleClass="span">
+                                <h:commandButton value="Добавить блюдо..." action="#{orderDishBean.insert}" styleClass="btn">
+                                    <f:param name="orderId" value="#{order.orderId}"/>
+                                </h:commandButton>
+                            </h:panelGroup>
+                            <h:panelGroup styleClass="span">
+                                <h:commandButton value="Удалить заказ" action="#{customerBean.deleteOrder(order.orderId)}" styleClass="btn"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
                     </h:form>
                 </h:panelGroup>
             </ui:repeat>
             <h:panelGroup layout="block" styleClass="links">
+                <h:panelGroup styleClass="span">
+                    <h:form>
+                        <h:commandButton value="Добавить заказ" action="#{customerBean.addOrder}" styleClass="btn"/>
+                    </h:form>
+                </h:panelGroup>
                 <h:panelGroup styleClass="span">
                     <h:form>
                         <h:commandLink value="Скачать XML-файл" action="#{customerBean.downloadXml}" styleClass="a"/>

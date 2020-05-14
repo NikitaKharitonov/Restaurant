@@ -13,6 +13,14 @@
     </navigation-rule>
 
     <navigation-rule>
+        <from-view-id>/create.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/result.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
         <from-view-id>/insert.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>success</from-outcome>

@@ -10,27 +10,32 @@
         <title>Вход</title>
         <h:outputStylesheet library="css" name="style.css"/>
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/icon.ico']}"/>
+
     </h:head>
     <h:body>
-        <h:form styleClass="login">
-            <h1>Вход</h1>
-            <h:inputText value="#{customerBean.username}" id="username" a:placeholder="Имя пользователя" required="true"
-                         requiredMessage="Введите имя пользователя" style="border: #{customerBean.message == 'notfound' ? '1px solid rgba(255, 28, 21, 0.85)' : '1px solid rgba(0,0,0,0.3)'}"
-                         >
-            </h:inputText>
-            <h:inputSecret value="#{customerBean.password}" id="password" a:placeholder="Пароль" required="true"
-                           requiredMessage="Введите пароль" style="border: #{customerBean.message == 'notfound' ? '1px solid rgba(255, 28, 21, 0.85)' : '1px solid rgba(0,0,0,0.3)'}"
-            />
-            <h:commandButton value="Войти" action="#{customerBean.validateUserLogin}" styleClass="btn"/>
-            <c:if test="#{customerBean.message.equals('notfound')}">
-                <h:outputLabel value="Неверное имя пользователя или пароль" style="color: red"/>
-            </c:if>
-            <c:if test="#{customerBean.message.equals('sqlesxception')}">
-                <h:outputLabel value="Систимная ошибка"/>
-            </c:if>
-            <h:panelGroup layout="block">
-                <h:messages style="color: red"/>
-            </h:panelGroup>
-        </h:form>
+        <h:panelGroup styleClass="login">
+            <h:form>
+                <h1>Вход</h1>
+                <h:inputText value="#{customerBean.username}" id="username" a:placeholder="Имя пользователя" required="true"
+                             requiredMessage="Введите имя пользователя" style="border: #{customerBean.message == 'failed' ? '1px solid rgba(255, 28, 21, 0.85)' : '1px solid rgba(0,0,0,0.3)'}"
+                >
+                </h:inputText>
+                <h:inputSecret value="#{customerBean.password}" id="password" a:placeholder="Пароль" required="true"
+                               requiredMessage="Введите пароль" style="border: #{customerBean.message == 'failed' ? '1px solid rgba(255, 28, 21, 0.85)' : '1px solid rgba(0,0,0,0.3)'}"
+                />
+                <h:commandButton value="Войти" action="#{customerBean.validateUserLogin}" styleClass="btn"/>
+                <c:if test="#{customerBean.message.equals('failed')}">
+                    <h:outputLabel value="Неверное имя пользователя или пароль" style="color: red"/>
+                </c:if>
+                <c:if test="#{customerBean.message.equals('sqlesxception')}">
+                    <h:outputLabel value="Систимная ошибка"/>
+                </c:if>
+                <h:panelGroup layout="block">
+                    <h:messages style="color: red"/>
+                </h:panelGroup>
+            </h:form>
+            <hr/>
+            <h:link value="Зарегистрироваться" outcome="create" styleClass="btn"/>
+        </h:panelGroup>
     </h:body>
 </html>

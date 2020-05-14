@@ -3,6 +3,7 @@ package ru.restaurant.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.*;
 import java.io.Reader;
 import java.io.Writer;
@@ -10,6 +11,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Entity
+@org.hibernate.annotations.NamedQueries({
+        @org.hibernate.annotations.NamedQuery(name="GetCustomerByUsername", query = "from Customer where username = :username"),
+        @org.hibernate.annotations.NamedQuery(name="GetCustomerByUsernameAndPassword", query = "FROM Customer WHERE username = :username AND password = :password"),
+
+})
+@Table(name = "customer")
 @XmlRootElement(name = "customer")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Customer {
@@ -34,10 +42,18 @@ public class Customer {
 
     }
 
+    @Column(name = "customer_id")
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getCustomerId() {
         return customerId;
     }
 
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -46,6 +62,7 @@ public class Customer {
         this.name = name;
     }
 
+    @Column(name = "username")
     public String getUsername() {
         return username;
     }
@@ -54,6 +71,7 @@ public class Customer {
         this.username = username;
     }
 
+    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -62,11 +80,13 @@ public class Customer {
         this.password = password;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
     public List<Order> getOrderList() {
         return orderList;
     }
 
-    public void setOrderList(ArrayList<Order> orderList) {
+    public void setOrderList(List<Order> orderList) {
         this.orderList = orderList;
     }
 
@@ -88,12 +108,12 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "org.example.model.Customer{" +
-                "id=" + customerId +
+        return "Customer{" +
+                "customerId=" + customerId +
                 ", name='" + name + '\'' +
-                ", login='" + username + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", orders=" + orderList +
+                ", orderList=" + orderList +
                 '}';
     }
 

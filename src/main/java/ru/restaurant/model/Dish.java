@@ -3,12 +3,18 @@ package ru.restaurant.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Reader;
 import java.io.Writer;
 
+@Entity
+@org.hibernate.annotations.NamedQueries({
+        @org.hibernate.annotations.NamedQuery(name = "GetDishList", query = "from Dish")
+})
+@Table(name = "dish")
 @XmlRootElement(name = "dish")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Dish {
@@ -26,6 +32,8 @@ public class Dish {
 
     }
 
+    @Column(name = "name")
+    @Id
     public String getName() {
         return name;
     }
@@ -34,6 +42,7 @@ public class Dish {
         this.name = name;
     }
 
+    @Column(name = "price")
     public double getPrice() {
         return price;
     }
@@ -44,7 +53,7 @@ public class Dish {
 
     @Override
     public String toString() {
-        return "org.example.model.Dish{" +
+        return "Dish{" +
                 "name='" + name + '\'' +
                 ", price=" + price +
                 '}';
